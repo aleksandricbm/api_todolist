@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: todolist_api
+  username: sasha  
+  password: sasha
+  
+test:
+  <<: *default
+  database: todolist_api_test
+
+production:
+  <<: *default
+  database: todolist_api_production
+  username: todolist_api
+  password: <%= ENV['BOOK_STORE_DATABASE_PASSWORD'] %>
