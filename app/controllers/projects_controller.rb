@@ -14,7 +14,22 @@ class ProjectsController < ApplicationController
     render json: current_user.projects.all
   end
 
-  def permit_params
-    params.require(:project).permit(:name)
+  def update
+    current_user.projects.find(params[:params][:id]).update(permit_params)
   end
+
+  def destroy
+    current_user.projects.find(params[:name]).destroy
+  end
+
+  private
+
+  def permit_params
+    params.require(:params).permit(:name, :id)
+  end
+
+  def permit_id
+    params.require(:params).permit(:id).id
+  end
+
 end
