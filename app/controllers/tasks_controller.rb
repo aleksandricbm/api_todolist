@@ -1,12 +1,13 @@
 class TasksController < ApplicationController
   before_action :authenticate_user!
+  load_and_authorize_resource :project
+  load_and_authorize_resource :task, through: :project
 
   def index
-    render json: find_project(params[:project]).tasks.all
+    render json: @tasks
   end
 
   def create
-    @task = find_project(params[:params][:project]).tasks.new(permit_params)
     if @task.save
       render json: @task
     else
@@ -14,23 +15,35 @@ class TasksController < ApplicationController
     end
   end
 
+  def update
+    if @task.update_attributes(update_params)
+    end
+  end
+
   def destroy
-    current_user.projects.find(params[:name]).destroy
+    @task.destroy
   end
 
   def sort
-    tasks = find_project(params[:proj_id]).tasks
     permit_sort_update.each do |attr|
-      tasks.find(attr[:id]).update(position: attr[:position])
+      @tasks.find(attr[:id]).update(position: attr[:position])
     end
     render nothing: true
   end
 
   def completed
-    find_project(params[:proj_id]).tasks.find(params[:task_id]).set_completed
+    @task.set_completed
   end
 
   private
+
+  def create_params
+    params.permit(:name)
+  end
+
+  def update_params
+    params.permit(:name)
+  end
 
   def permit_params
     params.require(:params).permit(:name)

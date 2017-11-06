@@ -1,8 +1,12 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
+  load_and_authorize_resource through: :current_user
+
+  def index
+    render json: @projects
+  end
 
   def create
-    @project = current_user.projects.create(permit_params)
     if @project.save
       render json: @project
     else
@@ -10,22 +14,23 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def show
-    render json: current_user.projects.all
-  end
-
   def update
-    current_user.projects.find(params[:params][:id]).update(permit_params)
+    if @project.update_attributes(update_params)
+    end
   end
 
   def destroy
-    current_user.projects.find(params[:name]).destroy
+    @project.destroy
   end
 
   private
 
-  def permit_params
-    params.require(:params).permit(:name, :id)
+  def create_params
+    params.require(:params).permit(:id, :name)
+  end
+
+  def update_params
+    params.permit(:name)
   end
 
   def permit_id
