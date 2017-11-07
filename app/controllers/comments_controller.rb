@@ -4,10 +4,19 @@ class CommentsController < ApplicationController
   load_and_authorize_resource :comment, through: :task
 
   def index
+    render json: @comments
   end
 
   def create
-    @comment.save
+    if @comment.save
+      render json: @comment
+    else
+      render json: @comment.errors, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @comment.destroy
   end
 
   private
