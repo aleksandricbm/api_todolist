@@ -8,5 +8,6 @@ Rails.application.routes.draw do
         put :completed
       end
     end
+    resources :comments
   end
 end
