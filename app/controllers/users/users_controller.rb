@@ -1,5 +1,5 @@
 class Users::UsersController < Devise::RegistrationsController
- before_filter :authenticate_user!, :except => [:create, :show]
+ before_action :authenticate_user!, :except => [:create, :show]
 
   def show
     render :json => {:info => "Current User", :user => current_user}, :status => 200
