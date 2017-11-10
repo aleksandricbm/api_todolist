@@ -7,6 +7,7 @@ end
 
 gem 'apipie-rails'
 gem 'rails', '~> 5.1.4'
+gem 'rack-cors', :require => 'rack/cors'
 gem 'puma', '~> 3.7'
 gem 'carrierwave-base64'
 gem 'carrierwave-google-storage', '~> 0.7.0'

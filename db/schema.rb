@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20171106212618) do
 
   create_table "tasks", force: :cascade do |t|
     t.string "name", null: false
-    t.date "deadline"
+    t.datetime "deadline"
     t.bigint "project_id"
     t.integer "position", default: 0
     t.boolean "completed", default: false

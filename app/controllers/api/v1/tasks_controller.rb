@@ -5,10 +5,10 @@ class Api::V1::TasksController < ApplicationController
   load_and_authorize_resource :task, through: :project
 
   def_param_group :tasks do
-    param :params, Hash do
-      param :id, String, required: true
+    param :params, Array, of: Hash do
+      param :id, Integer, required: true
       param :project_id, Integer, required: true
-      param :position, String, required: true
+      param :position, Integer, required: true
     end
   end
 
@@ -65,7 +65,7 @@ class Api::V1::TasksController < ApplicationController
   private
 
   def create_params
-    params.require(:params).permit(:name)
+    params.permit(:name)
   end
 
   def update_params
