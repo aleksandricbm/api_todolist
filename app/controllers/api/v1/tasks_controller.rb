@@ -62,6 +62,14 @@ class Api::V1::TasksController < ApplicationController
     @task.set_completed
   end
 
+  api :PUT, 'tasks/:id/deadline', 'Change deadline'
+  param :id, String, required: true
+  param :project_id, Integer, required: true
+  param :deadline, String, required: true
+  def deadline
+    @task.set_deadline(params[:deadline])
+  end
+
   private
 
   def create_params

@@ -14,4 +14,9 @@ class Task < ActiveRecord::Base
     self.completed = self.completed? ? false : true
     self.save
   end
+
+  def set_deadline(data)
+    self.deadline = data
+    self.save
+  end
 end

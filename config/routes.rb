@@ -8,6 +8,7 @@ Rails.application.routes.draw do
         put :sort, on: :collection
         member do
           put :completed
+          put :deadline
         end
       end
       resources :comments
