@@ -24,4 +24,9 @@ class Task < ActiveRecord::Base
     self.comments_qty +=1
     self.save
   end
+
+  def decrease_comments_qty
+    self.comments_qty -=1 if self.comments_qty > 0
+    self.save
+  end
 end
