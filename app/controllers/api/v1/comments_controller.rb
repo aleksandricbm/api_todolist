@@ -6,7 +6,7 @@ class Api::V1::CommentsController < ApplicationController
 
   def_param_group :data do
     param :params, Hash do
-      param :comments, String, required: true
+      param :comment, String, required: true
       param :project_id, Integer, required: true
       param :task_id, Integer, required: true
     end
@@ -23,6 +23,7 @@ class Api::V1::CommentsController < ApplicationController
   param_group :data
   def create
     if @comment.save
+      @comment.task.increase_comments_qty
       render json: @comment
     else
       render json: @comment.errors, status: :unprocessable_entity
@@ -40,6 +41,6 @@ class Api::V1::CommentsController < ApplicationController
   private
 
   def create_params
-    params.permit(:comments, :file)
+    params.permit(:comment, :file)
   end
 end

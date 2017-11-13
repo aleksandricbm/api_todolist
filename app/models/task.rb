@@ -19,4 +19,9 @@ class Task < ActiveRecord::Base
     self.deadline = data
     self.save
   end
+
+  def increase_comments_qty
+    self.comments_qty +=1
+    self.save
+  end
 end
