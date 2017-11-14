@@ -4,13 +4,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :projects
-      resources :tasks do
-        put :sort, on: :collection
-        member do
-          put :completed
-          put :deadline
-        end
-      end
+      resources :tasks
       resources :comments
     end
   end

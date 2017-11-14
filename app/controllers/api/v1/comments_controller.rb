@@ -4,23 +4,27 @@ class Api::V1::CommentsController < ApplicationController
   load_and_authorize_resource :task
   load_and_authorize_resource :comment, through: :task
 
-  def_param_group :data do
-    param :params, Hash do
+  def_param_group :find do
+    param :project_id, :number, required: true
+    param :task_id, :number, required: true
+  end
+
+  def_param_group :comment do
+    param :data, Hash, action_aware: true, required: true do
       param :comment, String, required: true
-      param :project_id, Integer, required: true
-      param :task_id, Integer, required: true
+      param :file, String, required: false
     end
   end
 
   api :GET, 'comments', 'Get list comments a current task'
-  param :project_id, String, required: true
-  param :task_id, String, required: true
+  param_group :find
   def index
     render json: @comments
   end
 
   api :POST, 'comments', 'Create comment a current task'
-  param_group :data
+  param_group :find
+  param_group :comment
   def create
     if @comment.save
       @comment.task.increase_comments_qty
@@ -41,7 +45,7 @@ class Api::V1::CommentsController < ApplicationController
 
   private
 
-  def create_params
-    params.permit(:comment, :file)
+  def comment_params
+    params.require(:data).permit(:comment, :file)
   end
 end

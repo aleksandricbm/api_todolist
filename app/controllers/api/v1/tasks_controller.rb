@@ -4,11 +4,10 @@ class Api::V1::TasksController < ApplicationController
   load_and_authorize_resource :project
   load_and_authorize_resource :task, through: :project
 
-  def_param_group :tasks do
-    param :params, Array, of: Hash do
-      param :id, Integer, required: true
-      param :project_id, Integer, required: true
-      param :position, Integer, required: true
+  def_param_group :task do
+    param :task, Hash, action_aware: true, required: true do
+      param :name, String, required: true
+      param :direction, String, required: false
     end
   end
 
@@ -19,22 +18,29 @@ class Api::V1::TasksController < ApplicationController
   end
 
   api :POST, 'tasks', 'Create task a current project to user'
-  param :project_id, Integer, required: true
-  param :name, String, required: true
+  param :project_id, :number, required: true
+  param_group :task
   def create
     if @task.save
       render json: @task
     else
-      render json: @task.errors, status: :unprocessable_entity
+      render json: @task.errors, status: 422
     end
   end
 
-  api :POST, 'tasks/:id', 'Update some task a current project to user'
-  param :id, String, required: true
-  param :project_id, Integer, required: true
-  param :name, String, required: true
+  api :PUT, 'tasks/:id', 'Update some task a current project to user'
+  param :id, :number, required: true
+  param_group :task
   def update
-    if @task.update_attributes(update_params)
+    @task.move_position(params[:direction]) if params[:direction].present?
+    @task.update_attributes(task_params) if params[:name].present?
+    @task.set_completed if params[:completed].present?
+    @task.set_deadline(params[:deadline]) if params[:deadline].present?
+
+    if @task.errors.present?
+      render json: @task.errors, status: 422
+    else
+      render json: @project.tasks, status: 200
     end
   end
 
@@ -42,45 +48,16 @@ class Api::V1::TasksController < ApplicationController
   param :id, String, required: true
   param :project_id, String, required: true
   def destroy
-    @task.destroy
-  end
-
-  api :PUT, 'tasks/sort', 'Change task position'
-  param :project_id, Integer, required: true
-  param_group :tasks
-  def sort
-    permit_sort_update.each do |attr|
-      @tasks.find(attr[:id]).update(position: attr[:position])
+    if @task.destroy
+      render json: @task, status: 204
+    else
+      render json: @task.errors, status: 422
     end
-    render nothing: true
-  end
-
-  api :PUT, 'tasks/:id/completed', 'Change status task'
-  param :id, String, required: true
-  param :project_id, Integer, required: true
-  def completed
-    @task.set_completed
-  end
-
-  api :PUT, 'tasks/:id/deadline', 'Change deadline'
-  param :id, String, required: true
-  param :project_id, Integer, required: true
-  param :deadline, String, required: true
-  def deadline
-    @task.set_deadline(params[:deadline])
   end
 
   private
 
-  def create_params
-    params.permit(:name)
-  end
-
-  def update_params
-    params.permit(:name)
-  end
-
-  def permit_sort_update
-    params.permit(params: [:id, :position])[:params]
+  def task_params
+    params.require(:task).permit(:name)
   end
 end

@@ -4,7 +4,7 @@ class Api::V1::ProjectsController < ApplicationController
   load_and_authorize_resource through: :current_user
 
   def_param_group :project do
-    param :params, Hash, action_aware: true, required: true do
+    param :project, Hash, action_aware: true, required: true do
       param :name, String, required: true
     end
   end
@@ -20,7 +20,7 @@ class Api::V1::ProjectsController < ApplicationController
     if @project.save
       render json: @project
     else
-      render json: @project.errors, status: :unprocessable_entity
+      render json: @project.errors, status: 422
     end
   end
 
@@ -28,28 +28,26 @@ class Api::V1::ProjectsController < ApplicationController
   param :id, String, required: true
   param_group :project
   def update
-    if @project.update_attributes(update_params)
+    if @project.update_attributes(project_params)
+      render json: @project, status: 200
+    else
+      render json: @project.errors, status: 422
     end
   end
 
   api :DELETE, 'projects/:id', 'Delete some project'
   param :id, String, required: true
   def destroy
-    @project.destroy
+    if @project.destroy
+      render json: @project, status: 204
+    else
+      render json: @project.errors, status: 422
+    end
   end
 
   private
 
-  def create_params
-    params.require(:params).permit(:id, :name)
+  def project_params
+    params.require(:project).permit(:name)
   end
-
-  def update_params
-    params.require(:params).permit(:name)
-  end
-
-  def permit_id
-    params.require(:params).permit(:id).id
-  end
-
 end

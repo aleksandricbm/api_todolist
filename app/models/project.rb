@@ -1,7 +1,8 @@
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
   belongs_to :user
   has_many :tasks, dependent: :destroy
 
+  validates :name, presence: true
   validate :uniques_project
 
   def uniques_project

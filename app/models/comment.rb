@@ -1,11 +1,10 @@
-class Comment < ActiveRecord::Base
+class Comment < ApplicationRecord
   belongs_to :task
   mount_base64_uploader :file, ImageUploader
+  validates :comment, presence: true, length: { minimum: 10, maximum: 256 }
   validate :file_size
 
   def file_size
-    if file.size.to_f/(1000*1000) > 10
-      errors.add(:file, "You cannot upload a file greater than #{upload_limit.to_f}MB")
-    end
+    errors.add(:file, "long") if file.size.to_f / (1000 * 1000) > 10
   end
 end
