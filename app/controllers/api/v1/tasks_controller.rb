@@ -1,5 +1,4 @@
 class Api::V1::TasksController < ApplicationController
-  respond_to :json
   before_action :authenticate_user!
   load_and_authorize_resource :project
   load_and_authorize_resource :task, through: :project
@@ -32,11 +31,7 @@ class Api::V1::TasksController < ApplicationController
   param :id, :number, required: true
   param_group :task
   def update
-    @task.move_position(params[:direction]) if params[:direction].present?
-    @task.update_attributes(task_params) if params[:name].present?
-    @task.set_completed if params[:completed].present?
-    @task.set_deadline(params[:deadline]) if params[:deadline].present?
-
+    @task.update_params(params)
     if @task.errors.present?
       render json: @task.errors, status: 422
     else

@@ -1,5 +1,4 @@
 class Api::V1::ProjectsController < ApplicationController
-  respond_to :json
   before_action :authenticate_user!
   load_and_authorize_resource through: :current_user
 

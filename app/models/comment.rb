@@ -1,5 +1,5 @@
 class Comment < ApplicationRecord
-  belongs_to :task
+  belongs_to :task, counter_cache: true
   mount_base64_uploader :file, ImageUploader
   validates :comment, presence: true, length: { minimum: 10, maximum: 256 }
   validate :file_size

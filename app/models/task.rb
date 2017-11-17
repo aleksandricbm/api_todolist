@@ -22,15 +22,15 @@ class Task < ApplicationRecord
     self.save
   end
 
-  def increase_comments_qty
-    self.comments_qty += 1
-    self.save
-  end
+  # def increase_comments_qty
+  #   self.comments_qty += 1
+  #   self.save
+  # end
 
-  def decrease_comments_qty
-    self.comments_qty -= 1 if self.comments_qty > 0
-    self.save
-  end
+  # def decrease_comments_qty
+  #   self.comments_qty -= 1 if self.comments_qty > 0
+  #   self.save
+  # end
 
   def move_position(direction)
     case direction
@@ -38,5 +38,12 @@ class Task < ApplicationRecord
       when 'down' then self.move_lower
       else false
     end
+  end
+
+  def update_params(params)
+    move_position(params[:direction]) if params[:direction].present?
+    update_attributes(params.require(:task).permit(:name)) if params[:name].present?
+    set_completed if params[:completed].present?
+    set_deadline(params[:deadline]) if params[:deadline].present?
   end
 end
