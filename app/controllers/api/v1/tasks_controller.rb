@@ -3,6 +3,8 @@ class Api::V1::TasksController < ApplicationController
   load_and_authorize_resource :project
   load_and_authorize_resource :task, through: :project
 
+  include Update_task
+
   def_param_group :task do
     param :task, Hash, action_aware: true, required: true do
       param :name, String, required: true
@@ -31,7 +33,7 @@ class Api::V1::TasksController < ApplicationController
   param :id, :number, required: true
   param_group :task
   def update
-    @task.update_params(params)
+    update_params(params)
     if @task.errors.present?
       render json: @task.errors, status: 422
     else

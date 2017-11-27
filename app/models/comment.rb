@@ -5,6 +5,6 @@ class Comment < ApplicationRecord
   validate :file_size
 
   def file_size
-    errors.add(:file, "long") if file.size.to_f / (1000 * 1000) > 10
+    errors.add(:file, I18n.t('errors.long_file')) if file.size.to_f / (1000 * 1000) > 10
   end
 end

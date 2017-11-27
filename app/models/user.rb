@@ -1,6 +1,5 @@
 class User < ApplicationRecord
-  devise :database_authenticatable, :registerable,
-          :rememberable, :trackable, :validatable
+  devise :database_authenticatable, :registerable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
   has_many :projects, dependent: :destroy
 

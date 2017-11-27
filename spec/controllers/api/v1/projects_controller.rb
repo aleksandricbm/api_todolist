@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::ProjectsController, type: :controller do
-  let(:user) { FactoryGirl.create(:user) }
-  let(:project) { FactoryGirl.create(:project, user_id: user.id) }
+  let(:user) { create(:user) }
+  let(:project) { create(:project, user_id: user.id) }
   let(:params_valid) { { name: 'Test' } }
   let(:params_invalid) { { name: '' } }
 
@@ -28,7 +28,6 @@ RSpec.describe Api::V1::ProjectsController, type: :controller do
     end
 
     context 'auth user' do
-
       before { auth_request(user) }
 
       it 'create project', :show_in_doc do
@@ -51,7 +50,6 @@ RSpec.describe Api::V1::ProjectsController, type: :controller do
     end
 
     context 'auth user' do
-
       before { auth_request(user) }
 
       it 'update project name', :show_in_doc do
@@ -74,7 +72,6 @@ RSpec.describe Api::V1::ProjectsController, type: :controller do
     end
 
     context 'auth user' do
-
       before { auth_request(user) }
 
       it 'destroy project', :show_in_doc do

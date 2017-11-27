@@ -5,7 +5,7 @@ describe Project, type: :model do
   it { is_expected.to have_many :tasks }
 
   it 'uniques project name' do
-    project = FactoryGirl.create(:project)
-    expect(FactoryGirl.build(:project, name: project.name)).to be_valid
+    project = create(:project)
+    expect(build(:project, name: project.name)).to be_valid
   end
 end

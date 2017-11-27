@@ -16,5 +16,4 @@
 .byebug_history
 .env
 coverage
-Procfile
 public/*

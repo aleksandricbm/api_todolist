@@ -1,10 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::TasksController, type: :controller do
-
-  let(:user) { FactoryGirl.create(:user) }
-  let(:project) { FactoryGirl.create(:project, user_id: user.id) }
-  let(:task) { FactoryGirl.create(:task, project_id: project.id) }
+  let(:user) { create(:user) }
+  let(:project) { create(:project, user_id: user.id) }
+  let(:task) { create(:task, project_id: project.id) }
   let(:params_valid) { 'Test Task' }
   let(:params_invalid) { '' }
 
@@ -30,7 +29,6 @@ RSpec.describe Api::V1::TasksController, type: :controller do
     end
 
     context 'auth user' do
-
       before { auth_request(user) }
 
       it 'create task', :show_in_doc do
@@ -48,7 +46,6 @@ RSpec.describe Api::V1::TasksController, type: :controller do
     end
 
     context 'auth user' do
-
       before { auth_request(user) }
 
       it 'update task name', :show_in_doc do
@@ -78,7 +75,6 @@ RSpec.describe Api::V1::TasksController, type: :controller do
     end
 
     context 'auth user' do
-
       before { auth_request(user) }
 
       it 'destroy task', :show_in_doc do

@@ -30,7 +30,7 @@ RSpec.configure do |config|
   # config.extend AuthHelper, type: :controller
   config.use_transactional_fixtures = false
 
-  #apipie show_in_doc
+  # apipie show_in_doc
   config.filter_run show_in_doc: true if ENV['APIPIE_RECORD']
 
   config.infer_spec_type_from_file_location!

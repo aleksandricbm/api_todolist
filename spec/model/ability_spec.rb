@@ -1,12 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe Ability, type: :controller do
-
-  let(:user) { FactoryGirl.create(:user) }
+describe Ability, type: :model do
+  let(:user) { create(:user) }
   let(:ability) { Ability.new(user) }
-  let(:project) { FactoryGirl.create(:project, user_id: user.id) }
-  let(:task) { FactoryGirl.create(:task, project_id: project.id) }
-  let(:comment) { FactoryGirl.create(:comment, task_id: task.id) }
+  let(:project) { create(:project, user_id: user.id) }
+  let(:task) { create(:task, project_id: project.id) }
+  let(:comment) { create(:comment, task_id: task.id) }
 
   it 'Project' do
     assert ability.can?(:read, project)
@@ -14,7 +13,7 @@ RSpec.describe Ability, type: :controller do
   end
 
   it 'Task' do
-    assert ability.can?(:read, task )
+    assert ability.can?(:read, task)
     assert ability.cannot?(:read, Task.new)
   end
 

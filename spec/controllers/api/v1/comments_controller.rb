@@ -1,11 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::CommentsController, type: :controller do
-
-  let(:user) { FactoryGirl.create(:user) }
-  let(:project) { FactoryGirl.create(:project, user_id: user.id) }
-  let(:task) { FactoryGirl.create(:task, project_id: project.id) }
-  let(:comment) { FactoryGirl.create(:comment, task_id: task.id) }
+  let(:user) { create(:user) }
+  let(:project) { create(:project, user_id: user.id) }
+  let(:task) { create(:task, project_id: project.id) }
+  let(:comment) { create(:comment, task_id: task.id) }
   let(:params_valid) { 'Test Comment' }
   let(:params_invalid) { '' }
 
@@ -24,7 +23,6 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
     end
   end
 
-
   describe 'POST #create' do
     it 'not auth user' do
       post :create, { params: { project_id: project.id, task_id: task.id } }
@@ -32,7 +30,6 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
     end
 
     context 'auth user' do
-
       before { auth_request(user) }
 
       it 'create comment', :show_in_doc do
@@ -57,7 +54,6 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
     end
 
     context 'auth user' do
-
       before { auth_request(user) }
 
       it 'destroy comment', :show_in_doc do

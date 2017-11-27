@@ -26,7 +26,6 @@ class Api::V1::CommentsController < ApplicationController
   param_group :comment
   def create
     if @comment.save
-      # @comment.task.increase_comments_qty
       render json: @comment
     else
       render json: @comment.errors, status: :unprocessable_entity
@@ -38,7 +37,6 @@ class Api::V1::CommentsController < ApplicationController
   param :project_id, String, required: true
   param :task_id, String, required: true
   def destroy
-    # @comment.task.decrease_comments_qty
     @comment.destroy
   end
 

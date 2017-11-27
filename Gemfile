@@ -16,7 +16,6 @@ gem 'google-cloud', '~> 0.22.0'
 gem 'dotenv-rails', '~> 2.2.1'
 gem 'devise_token_auth', '~> 0.1.42'
 gem 'pg', '~> 0.21.0'
-gem 'omniauth-facebook', '~> 4.0.0'
 gem 'cancancan', '~> 2.0'
 gem 'foreman', '0.63.0'
 gem 'acts_as_list', '0.9.9'
@@ -27,7 +26,6 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.6.0'
   gem 'guard-rspec', '~> 4.7.3'
   gem 'spring-commands-rspec', '~> 1.0.4'
-  gem 'vcr', '~> 3.0.3'
   gem 'ffaker', '2.7.0'
 end
 
@@ -50,5 +48,6 @@ group :test do
   gem 'rails-controller-testing', '~> 1.0.2'
   gem 'shoulda-matchers', '~> 3.1.2'
   gem 'simplecov', '0.15.1', require: false
-  gem "json_matchers"
+  gem 'json_matchers', '0.7.2'
+  gem 'rubocop-rspec', '1.16.0'
 end
