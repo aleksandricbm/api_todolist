@@ -7,11 +7,6 @@ module Update_task
       @task.save
     end
 
-    def set_position
-      max = @task.project.tasks.maximum(:position)
-      @task.position = max.nil? ? 0 : max + 1
-    end
-
     def set_deadline(data)
       @task.deadline = data
       @task.save
