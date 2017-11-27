@@ -7,6 +7,10 @@ RSpec.describe Api::V1::TasksController, type: :controller do
   let(:params_valid) { 'Test Task' }
   let(:params_invalid) { '' }
 
+  describe 'includes the correct concerns' do
+    it { expect(controller.class.ancestors.include?(Api::V1::Update_task)).to eq(true) }
+  end
+
   describe 'GET #index' do
     it 'not auth user' do
       get :index
@@ -64,6 +68,22 @@ RSpec.describe Api::V1::TasksController, type: :controller do
         put :update, params: { project_id: project.id, id: task.id, task: {  direction: 'donw' } }
         expect(response).to have_http_status 200
         expect(response).to match_response_schema('tasks')
+      end
+
+      it 'set_completed check', :show_in_doc do
+        put :update, params: { project_id: project.id, id: task.id, completed: 1, task: {  completed: 1 } }
+        expect(response).to have_http_status 200
+        expect(response).to match_response_schema('tasks')
+        task.reload
+        expect(task.completed).to be true
+      end
+
+      it 'set_deadline check' do
+        put :update, params: { project_id: project.id, id: task.id, deadline: DateTime.now, task: { deadline: DateTime.now } }
+        expect(response).to have_http_status 200
+        expect(response).to match_response_schema('tasks')
+        task.reload
+        expect(task.deadline).not_to be_nil
       end
     end
   end

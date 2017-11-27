@@ -1,4 +1,4 @@
-module Update_task
+module Api::V1::Update_task
   extend ActiveSupport::Concern
 
   included do
