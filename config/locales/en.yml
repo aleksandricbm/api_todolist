@@ -1,0 +1,11 @@
+en:
+  errors:
+    password_invalid: "Password does not meet minimal requirements. The length should be 8 characters, alphanumeric."
+    uniq_email: "This login is already registered. Please, log in."
+    uniques_project: "The project with such name does already exist."
+    messages:
+      taken: "This login is already registered. Please, log in."
+    long_file: "Long file"
+  devise_token_auth:
+    sessions:
+      bad_credentials: "Incorrect login or(and) password"

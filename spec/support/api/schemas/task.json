@@ -1,0 +1,11 @@
+{
+  "id": { "type": "number" },
+  "name": { "type": "string" },
+  "deadline": { "type": "string" },
+  "project_id": { "type": "number" },
+  "position": { "type": "number" },
+  "completed": { "type": "string" },
+  "comments_qty": { "type": "number" },
+  "created_at": { "type": "string" },
+  "updated_at": { "type": "string" }
+  }
